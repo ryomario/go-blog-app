@@ -1,0 +1,32 @@
+{
+  "name": "go-blog-app",
+  "version": "1.0.0",
+  "description": "Backend of a Blog Application",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ryomario/go-blog-app.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mariadb",
+    "mysql",
+    "backend"
+  ],
+  "author": "Mario",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryomario/go-blog-app/issues"
+  },
+  "homepage": "https://github.com/ryomario/go-blog-app#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
+    "mariadb": "^3.0.1"
+  }
+}
