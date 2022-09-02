@@ -4,6 +4,7 @@
   "description": "Backend of a Blog Application",
   "main": "app.js",
   "scripts": {
+    "dev": "nodemon app.js",
     "test": "node app.js"
   },
   "repository": {
