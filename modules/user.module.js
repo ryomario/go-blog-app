@@ -1,5 +1,5 @@
 const mysql = require('../helpers/database')
-
+const bcrypt = require('bcrypt')
 const Joi = require('joi')
 
 class _user {
@@ -23,6 +23,8 @@ class _user {
                     error: errorDetails.join(', ')
                 }
             }
+
+            body.password = bcrypt.hashSync(body.password,10)
 
             const add = await mysql.query(
                 'INSERT INTO auth_user (username, password, nama_user) VALUES (?, ?, ?)',
