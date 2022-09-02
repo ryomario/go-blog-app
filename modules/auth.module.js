@@ -56,7 +56,7 @@ class _auth {
             const { secret, expired } = config.jwt
 
             const token = jwt.sign(payload, secret, {expiresIn: String(expired)})
-            const expiresAt = date.format(new Date( Date.now() + expired) + 'YYYY-MM-DD HH:mm:ss')
+            const expiresAt = date.format(new Date( Date.now() + expired), 'YYYY-MM-DD HH:mm:ss')
 
             return {
                 status: true,

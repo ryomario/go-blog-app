@@ -57,10 +57,13 @@ class _article {
             }
 
             const list = await mysql.query(sql.query, sql.params)
+            // console.log('list',list)
+            // console.log('sql',sql)
 
             const data = []
 
-            for (value in list) {
+            for (const value of list) {
+                // console.log('article',value)
                 const idxArticle = data.findIndex(article => article.id === value.id)
                 if (idxArticle === -1) {
                     data.push({
@@ -115,3 +118,5 @@ class _article {
         }
     }
 }
+
+module.exports = new _article()

@@ -1,8 +1,10 @@
 const AuthController = require('./controllers/AuthController')
+const ArticlesController = require('./controllers/ArticlesController')
 const UserController = require('./controllers/UserController')
 
 const _routes = [
     ['',AuthController],
+    ['/articles',ArticlesController],
     ['/user',UserController]
 ]
 
