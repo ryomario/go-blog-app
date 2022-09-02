@@ -5,5 +5,9 @@
         "user":"root",
         "password":"root",
         "database":"go-blog"
+    },
+    "jwt": {
+        "secret": "ini rahasia jangan bilang siapa-siapa!!!",
+        "expired": 1800000
     }
 }
