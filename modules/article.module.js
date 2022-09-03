@@ -228,6 +228,123 @@ class _article {
             }
         }
     }
+
+    // Edit Article
+    editArticle = async (body) => {
+        try {
+            const schema = Joi.object({
+                id: Joi.number().required(),
+                title: Joi.string(),
+                user_id: Joi.number(),
+                summary: Joi.string()
+            })
+
+            const validation = schema.validate(body)
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(detail => detail.message)
+
+                return {
+                    status: false,
+                    code: 422,
+                    error: errorDetails.join(', ')
+                }
+            }
+
+            // Don't insert if undefined field
+            let query = 'UPDATE d_artikel SET '
+            const queryField = []
+            const params = []
+
+            if (body.title) {
+                queryField.push('title = ?')
+                params.push(body.title)
+            }
+            if (body.summary) {
+                queryField.push('summary = ?')
+                params.push(body.summary)
+            }
+
+            query += queryField.join(', ')
+            query += ' WHERE id = ? AND author = ?'
+            params.push(body.id, body.user_id)
+
+            const edit = await mysql.query(query, params)
+
+            // If query not affected any rows
+            if (edit && edit.affectedRows <= 0) {
+                // console.log(edit)
+                return {
+                    status: false,
+                    code: 403,
+                    error: 'Article cannot edited. Reasons:article id is out of index or you are not the article owner'
+                }
+            }
+
+            return {
+                status: true,
+                data: edit
+            }
+        } catch (error) {
+            console.error('editArticle module Error: ', error)
+
+            return {
+                status: false,
+                error
+            }
+        }
+    }
+
+    /**
+     * Delete Article
+     * @param {number} id 
+     * @param {number} user_id 
+     * @returns 
+     */
+    deleteArticle = async (id, user_id) => {
+        try {
+            const schema = Joi.number().required()
+
+            const validation = schema.validate(id)
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(detail => detail.message)
+
+                return {
+                    status: false,
+                    code: 422,
+                    error: errorDetails.join(', ')
+                }
+            }
+
+            const del = await mysql.query(
+                'DELETE FROM d_artikel WHERE id = ? AND author = ?',
+                [id, user_id]
+            )
+
+            // If query not affected any rows
+            if (del && del.affectedRows <= 0) {
+                // console.log(del)
+                return {
+                    status: false,
+                    code: 403,
+                    error: 'Article cannot deleted. Reasons:article id is out of index or you are not the article owner'
+                }
+            }
+
+            return {
+                status: true,
+                data: del
+            }
+        } catch (error) {
+            console.error('deleteArticle module Error: ', error)
+
+            return {
+                status: false,
+                error
+            }
+        }
+    }
 }
 
 module.exports = new _article()

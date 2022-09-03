@@ -51,4 +51,37 @@ ArticelsController.post('/', userSession, async (req, res, next) => {
     response.sendResponse(res, add)
 })
 
+/**
+ * Update Article
+ * @param {number} id
+ * @param {string} title 
+ * @param {string} summary 
+ */
+ArticelsController.put('/', userSession, async (req, res, next) => {
+
+    // Include user id who created to the body
+    req.body.user_id = req.user.id
+
+    const edit = await m$article.editArticle(req.body)
+
+    // Include user who edited if status true
+    if (edit.status)
+        edit.edited_by = req.user
+
+    response.sendResponse(res, edit)
+})
+
+/**
+ * Delete Article
+ * @param {number} id
+ */
+ArticelsController.delete('/:id', userSession, async (req, res, next) => {
+    const del = await m$article.deleteArticle(req.params.id, req.user.id)
+
+    if (del.status)
+        del.deleted_by = req.user
+    
+    response.sendResponse(res, del)
+})
+
 module.exports = ArticelsController
