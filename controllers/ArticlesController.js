@@ -24,4 +24,15 @@ ArticelsController.get('/detail', userSession, async (req, res, next) => {
     response.sendResponse(res, detail)
 })
 
+/**
+ * Create Article
+ * @param {string} title
+ * @param {string} summary
+ */
+ArticelsController.post('/', userSession, async (req, res, next) => {
+    const add = await m$article.addArticle(req.body)
+
+    response.sendResponse(res, add)
+})
+
 module.exports = ArticelsController

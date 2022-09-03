@@ -188,6 +188,46 @@ class _article {
             }
         }
     }
+
+    // Create Article
+    addArticle = async (body) => {
+        try {
+            const schema = Joi.object({
+                title: Joi.string().required(),
+                user_id: Joi.number().required(),
+                summary: Joi.string(),
+            })
+
+            const validation = schema.validate(body)
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(detail => detail.message)
+
+                return {
+                    status: false,
+                    code: 422,
+                    error: errorDetails.join(', ')
+                }
+            }
+
+            const add = await mysql.query(
+                'INSERT INTO d_artikel (author, title, summary) VALUES (?, ?, ?)',
+                [body.user_id, body.title, body.summary]
+            )
+
+            return {
+                status: true, 
+                data: add
+            }
+        } catch (error) {
+            console.error('addArticle module Error: ', error)
+
+            return {
+                status: false,
+                error
+            }
+        }
+    }
 }
 
 module.exports = new _article()
