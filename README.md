@@ -4,6 +4,8 @@ Simple REST API Application built for learning.
 
 Contains about several entities such as User, Article and Comment.
 
+For more API documentation https://documenter.getpostman.com/view/23133618/VUxSr5QK
+
 ## Installation
 
 First step is downloading this repository
@@ -28,4 +30,5 @@ npm i
 ```
 
 ## Usage
+
 
