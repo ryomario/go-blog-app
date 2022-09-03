@@ -1,11 +1,15 @@
 const express = require('express')
 const response = require('./helpers/response')
 const route = require('./routes')
+const cors = require('cors')
 
 const app = express()
 
 // Port API
 const port = process.env.PORT || 5151
+
+// Handle CORS
+app.use(cors())
 
 // Serialize dan Deserialize Input
 app.use(express.json())
