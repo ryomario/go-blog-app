@@ -27,8 +27,6 @@ class _database {
             }
 
             return res
-        } catch (error) {
-            
         } finally {
             if (conn) conn.release()
         }

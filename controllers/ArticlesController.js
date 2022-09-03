@@ -44,8 +44,9 @@ ArticelsController.post('/', userSession, async (req, res, next) => {
 
     const add = await m$article.addArticle(req.body)
 
-    // Include user who created
-    add.created_by = req.user
+    // Include user who created if status true
+    if (add.status)
+        add.created_by = req.user
 
     response.sendResponse(res, add)
 })
