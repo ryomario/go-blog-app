@@ -14,4 +14,14 @@ ArticelsController.get('/', userSession, async (req, res, next) => {
     response.sendResponse(res, list)
 })
 
+/**
+ * Detail Article
+ */
+ArticelsController.get('/detail', userSession, async (req, res, next) => {
+    // http://url-api/detail?id=1
+    const detail = await m$article.detailArticle(req.query.id)
+
+    response.sendResponse(res, detail)
+})
+
 module.exports = ArticelsController

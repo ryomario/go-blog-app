@@ -117,6 +117,77 @@ class _article {
             }
         }
     }
+
+    // Detail Article
+    detailArticle = async (id) => {
+        try {
+            const schema = Joi.number().required()
+
+            const validation = schema.validate(id)
+
+            if (validation.error) {
+                const errorDetails = validation.error.details.map(detail => detail.message)
+
+                return {
+                    status: false,
+                    code: 422,
+                    error: errorDetails.join(', ')
+                }
+            }
+
+            const detail = await mysql.query(
+                `SELECT 
+                    dk.id,
+                    dk.title,
+                    dk.summary,
+                    dk.created_at,
+                    dk.updated_at,
+                    dk.author user_id,
+                    au.username,
+                    au.nama_user
+                FROM d_artikel dk
+                JOIN auth_user au ON au.id = dk.author
+                WHERE dk.id = ?`,
+                [id]
+            )
+
+            if (detail.length <= 0) {
+                return {
+                    status: false,
+                    code: 404,
+                    error: 'Sorry, article not found'
+                }
+            }
+
+            const data = []
+            for (const value of detail) {
+                data.push({
+                    id: value.id,
+                    title: value.title,
+                    summary: value.summary,
+                    created_at: value.created_at,
+                    updated_at: value.updated_at,
+                    user: {
+                        id: value.user_id,
+                        username: value.username,
+                        nama_user: value.nama_user
+                    }
+                })
+            }
+
+            return {
+                status: true,
+                data: data[0]
+            }
+        } catch (error) {
+            console.error('detailArticle module Error: ', error)
+
+            return {
+                status: false,
+                error: error
+            }
+        }
+    }
 }
 
 module.exports = new _article()
